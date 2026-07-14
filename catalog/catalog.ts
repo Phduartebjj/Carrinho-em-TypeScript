@@ -13,18 +13,18 @@ let price: number;
 let stock: number;
 let category: string;
 
-function startCatalog(): void {
+async function startCatalog(): Promise<void> {
   while (running) {
     showOptionsCatalog();
     let choice: number = Number(prompt("Qual número você deseja?"));
 
     switch (choice) {
       case 1: {
-        showProducts;
+        showProducts();
         break;
       }
       case 2: {
-        registerProduct()
+       await registerProduct()
         break;
       }
 
@@ -36,7 +36,7 @@ function startCatalog(): void {
   }
 }
 
-function registerProduct(): void {
+async function registerProduct(): Promise<void> {
   input = prompt("Qual é o nome do produto que você deseja adicionar? ");
   if (!validationInputString(input)) {
     console.log("Nome inválido, digite outro nome");
@@ -69,7 +69,7 @@ function registerProduct(): void {
   }
   category = input;
 
-  saveProduct(createProduct(name, price, category, stock));
+ await saveProduct(createProduct(name, price, category, stock));
 }
 
 export { startCatalog };

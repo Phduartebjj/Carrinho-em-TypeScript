@@ -1,3 +1,5 @@
 import { startCatalog } from "./catalog/catalog.js";
+import { loadStorage } from "./storage/storage.js";
 
-startCatalog()
+await loadStorage()
+await startCatalog()
