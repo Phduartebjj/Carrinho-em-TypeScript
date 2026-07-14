@@ -5,7 +5,6 @@ const prompt = promptSync()
 
 let running:boolean = true
 
-
 function startCatalog():void{
     while(running){
         showOptionsCatalog()
@@ -28,5 +27,6 @@ function startCatalog():void{
         }
     }
 }
+
 
 export{startCatalog}
