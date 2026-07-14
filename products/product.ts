@@ -23,4 +23,8 @@ function createProduct(
   return product;
 }
 
+function saveProduct(p: Product):void{
+    products.push(p)
+}
 
+export {getProducts, createProduct,saveProduct}
