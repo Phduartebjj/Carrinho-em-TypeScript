@@ -28,3 +28,5 @@ function startCatalog():void{
         }
     }
 }
+
+export{startCatalog}
