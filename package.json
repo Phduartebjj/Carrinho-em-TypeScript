@@ -25,6 +25,7 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "prompt-sync": "^4.2.0"
   }
 }
