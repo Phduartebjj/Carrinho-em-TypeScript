@@ -1,5 +1,5 @@
 import promptSync from "prompt-sync"
-import { showOptionsCatalog } from "../ui.js"
+import { showOptionsCatalog, showProducts } from "../ui.js"
 
 const prompt = promptSync()
 
@@ -13,7 +13,7 @@ function startCatalog():void{
 
         switch(choice){
             case 1:{
-                
+                showProducts
                 break
             }
             case 2:{
