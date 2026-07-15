@@ -80,6 +80,7 @@ async function startCatalog(): Promise<void> {
       }
       case 9: {
         showFinishProgram();
+        running=false
         break;
       }
 

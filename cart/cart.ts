@@ -1,6 +1,7 @@
 import type { Product, CartProduct } from "../utils/types.js";
 import { saveCartInStorage } from "../storage/storage.js";
 import { getProducts } from "../products/product.js";
+import { erroFindProduct } from "../ui.js";
 
 let cartProducts: CartProduct[] = [];
 
@@ -17,9 +18,14 @@ function saveCartProducts(p: CartProduct): void {
 }
 
 async function addCartProduct(indexP: number): Promise<void> {
-  let productFind: any = getProducts().find((p, i) => i === indexP - 1);
+  let productFind = getProducts().find((p, i) => i === indexP - 1);
 
-  let cartProductFind: any = cartProducts.find(
+  if(!productFind){
+    erroFindProduct()
+    return
+  }
+  
+  let cartProductFind = cartProducts.find(
     (cP) => cP.id === productFind.id,
   );
   if (cartProductFind) {

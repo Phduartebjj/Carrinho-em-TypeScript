@@ -5,26 +5,23 @@ import { setCartProducts } from "../cart/cart.js";
 const productsFilePath = "./data/products.json";
 const cartFilePath = "./data/cart.json";
 
-async function readJson(
-  file: string,
-  fallback: Product[] | CartProduct[] = [],
-): Promise<Product[] | CartProduct[]> {
+async function readJson<T>(file: string, fallback: T): Promise<T> {
   try {
     const data = await readFile(file, "utf-8");
-    return JSON.parse(data) as Product[] | CartProduct[];
+    return JSON.parse(data) as T;
   } catch {
     return fallback;
   }
 }
 
 async function loadStorageCart(): Promise<void> {
-  const cartProducts: any = await readJson(cartFilePath, []);
+  const cartProducts = await readJson<CartProduct[]>(cartFilePath, []);
 
   setCartProducts(cartProducts);
 }
 
 async function loadStorage(): Promise<void> {
-  const products: any = await readJson(productsFilePath, []);
+  const products = await readJson<Product[]>(productsFilePath, []);
 
   setProducts(products);
 }
