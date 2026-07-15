@@ -6,4 +6,12 @@ interface Product {
   stock: number;
 }
 
-export type { Product };
+interface CartProduct {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  quantity: number;
+}
+
+export type { Product, CartProduct };

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises";
 import { setProducts } from "../products/product.js";
-import type { Product } from "../utils/types.js";
+import type { CartProduct, Product } from "../utils/types.js";
 const productsFilePath = "./data/products.json";
 const cartFilePath = ".data/cart.json"
 
@@ -42,7 +42,7 @@ async function saveProductsInStorage(products: Product[]): Promise<void> {
   );
 }
 
-async function saveCartInStorage(cart: Product[]):Promise<void>{
+async function saveCartInStorage(cart: CartProduct[]):Promise<void>{
   await writeFile(
     cartFilePath,
     JSON.stringify(cart, null, 2),
