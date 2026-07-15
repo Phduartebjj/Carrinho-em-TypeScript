@@ -76,6 +76,7 @@ async function startCatalog(): Promise<void> {
 
       case 5: {
         showCartProducts();
+        break
       }
       case 9: {
         showFinishProgram();
