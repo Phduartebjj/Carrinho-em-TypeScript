@@ -6,8 +6,8 @@ import {
   showCartProducts,
 } from "../ui.js";
 import {
-  validationInputNumber,
-  validationInputString,
+  askNumber,
+  askString,
 } from "../validation/validation.js";
 import {
   createProduct,
@@ -34,13 +34,9 @@ async function startCatalog(): Promise<void> {
     switch (choice) {
       case 1: {
         showProducts();
-        input = Number(
-          prompt("Digite o número do produto que você deseja comprar: "),
+        input = askNumber(
+          "Digite o número do produto que você deseja comprar: ",
         );
-        if (!validationInputNumber(input)) {
-          console.log("Número inválido, digite outro nome");
-          return;
-        }
         await addCartProduct(input);
         break;
       }
@@ -50,37 +46,29 @@ async function startCatalog(): Promise<void> {
       }
       case 3: {
         showProducts();
-        input = Number(
-          prompt("Digite o número do produto que você deseja editar: "),
+        input = askNumber(
+          "Digite o número do produto que você deseja editar: ",
         );
-        if (!validationInputNumber(input)) {
-          console.log("Número inválido, digite outro nome");
-          return;
-        }
         await editCatalogProduct(input);
 
         break;
       }
       case 4: {
         showProducts();
-        input = Number(
-          prompt("Digite o número do produto que você deseja remover: "),
+        input = askNumber(
+          "Digite o número do produto que você deseja remover: ",
         );
-        if (!validationInputNumber(input)) {
-          console.log("Número inválido, digite outro nome");
-          return;
-        }
         await removeProduct(input);
         break;
       }
 
       case 5: {
         showCartProducts();
-        break
+        break;
       }
       case 9: {
         showFinishProgram();
-        running=false
+        running = false;
         break;
       }
 
@@ -93,69 +81,19 @@ async function startCatalog(): Promise<void> {
 }
 
 async function registerProduct(): Promise<void> {
-  input = prompt("Qual é o nome do produto que você deseja adicionar? ");
-  if (!validationInputString(input)) {
-    console.log("Nome inválido, digite outro nome");
-    return;
-  }
-  name = input;
-
-  input = Number(
-    prompt("Qual é o preço do produto que você deseja adicionar? "),
-  );
-  if (!validationInputNumber(input)) {
-    console.log("Preço inválido");
-    return;
-  }
-  price = input;
-
-  input = Number(
-    prompt("Qual é a quantidade do produto que você deseja adicionar? "),
-  );
-  if (!validationInputNumber(input)) {
-    console.log("Quantidade inválida");
-    return;
-  }
-  stock = Number(input);
-
-  input = prompt("Qual é a categoria do produto que você deseja adicionar? ");
-  if (!validationInputString(input)) {
-    console.log("Nome inválido, digite outro nome");
-    return;
-  }
-  category = input;
+  name = askString("Nome: ");
+  price = askNumber("Preço: ");
+  category = askString("Categoria: ");
+  stock = askNumber("Estoque: ");
 
   await saveProduct(createProduct(name, price, category, stock));
 }
 
 async function editCatalogProduct(index: number): Promise<void> {
-  input = prompt("Novo nome: ");
-  if (!validationInputString(input)) {
-    console.log("Nome inválido, digite outro nome");
-    return;
-  }
-  name = input;
-
-  input = Number(prompt("Novo valor: "));
-  if (!validationInputNumber(Number(input))) {
-    console.log("Preço inválido");
-    return;
-  }
-  price = input;
-
-  input = Number(prompt("Nova quantidade: "));
-  if (!validationInputNumber(Number(input))) {
-    console.log("Quantidade inválida");
-    return;
-  }
-  stock = Number(input);
-
-  input = prompt("Nova Categoria: ");
-  if (!validationInputString(input)) {
-    console.log("Nome inválido, digite outro nome");
-    return;
-  }
-  category = input;
+  name = askString("Nome novo: ");
+  price = askNumber("Preço novo: ");
+  category = askString("Categoria novo: ");
+  stock = askNumber("Estoque novo: ");
 
   await editProduct(name, price, category, stock, index);
 }
