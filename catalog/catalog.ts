@@ -1,5 +1,5 @@
 import promptSync from "prompt-sync";
-import { showOptionsCatalog, showProducts,showFinishProgram } from "../ui.js";
+import { showOptionsCatalog, showProducts, showFinishProgram } from "../ui.js";
 import {
   validationInputNumber,
   validationInputString,
@@ -20,7 +20,6 @@ let price: number;
 let stock: number;
 let category: string;
 
-
 async function startCatalog(): Promise<void> {
   while (running) {
     showOptionsCatalog();
@@ -29,6 +28,14 @@ async function startCatalog(): Promise<void> {
     switch (choice) {
       case 1: {
         showProducts();
+        input = Number(
+          prompt("Digite o número do produto que você deseja comprar: "),
+        );
+        if (!validationInputNumber(Number(input))) {
+          console.log("Número inválido, digite outro nome");
+          return;
+        }
+        
         break;
       }
       case 2: {
@@ -45,27 +52,27 @@ async function startCatalog(): Promise<void> {
           return;
         }
         await editCatalogProduct(input);
-        
+
         break;
       }
-      case 4:{
-        showProducts()
+      case 4: {
+        showProducts();
         input = Number(
           prompt("Digite o número do produto que você deseja remover: "),
         );
         if (!validationInputNumber(Number(input))) {
           console.log("Número inválido, digite outro nome");
           return;
-        }  
-        await removeProduct(input)
-        break
+        }
+        await removeProduct(input);
+        break;
       }
 
-      case 9:{
-        showFinishProgram()
-        break
+      case 9: {
+        showFinishProgram();
+        break;
       }
-      
+
       default: {
         running = false;
         break;

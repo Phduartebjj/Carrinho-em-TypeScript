@@ -16,7 +16,14 @@ async function readJson(
   }
 }
 
+async function loadStorageCart() {
+  const cartProducts = await readJson(
+        cartFilePath,
+        []
+    );
 
+    setProducts(cartProducts);
+}
 
 async function loadStorage(): Promise<void> {
     const products = await readJson(
@@ -35,5 +42,13 @@ async function saveProductsInStorage(products: Product[]): Promise<void> {
   );
 }
 
+async function saveCartInStorage(cart: Product[]):Promise<void>{
+  await writeFile(
+    cartFilePath,
+    JSON.stringify(cart, null, 2),
+    "utf-8",
+  );
+}
 
-export { saveProductsInStorage, loadStorage };
+
+export { saveProductsInStorage, loadStorage,loadStorageCart,saveCartInStorage };
