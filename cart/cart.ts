@@ -1,5 +1,4 @@
 import type { Product, CartProduct } from "../utils/types.js";
-import { getProducts } from "../products/product.js";
 import { saveCartInStorage } from "../storage/storage.js";
 
 let cartProducts: CartProduct[] = [];
@@ -37,3 +36,5 @@ function createProductToCart(p: Product): CartProduct {
 
   return product
 }
+
+export {getCartProducts, addCartProduct}

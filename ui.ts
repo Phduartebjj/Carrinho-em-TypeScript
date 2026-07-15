@@ -1,3 +1,4 @@
+import { getCartProducts } from "./cart/cart.js";
 import { getProducts } from "./products/product.js";
 
 function showOptionsCatalog(): void {
@@ -15,7 +16,15 @@ function showOptionsCatalog(): void {
 function showProducts(): void {
   getProducts().forEach((p,i) => {
     console.log(
-      `${i+1}. Nome: ${p.name}\n Preço: ${p.price}\n Quantidade: ${p.stock}\n Categoria:${p.category}`,
+      `${i+1}. Nome: ${p.name}\n Preço: ${p.price}\n Estoque: ${p.stock}\n Categoria:${p.category}`,
+    );
+  });
+}
+
+function showCartProducts():void{
+  getCartProducts().forEach((p,i) => {
+    console.log(
+      `${i+1}. Nome: ${p.name}\n Preço: ${p.price}\n Quantidade: ${p.quantity}\n Categoria:${p.category}`,
     );
   });
 }
