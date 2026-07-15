@@ -13,6 +13,10 @@ function showOptionsCatalog(): void {
   console.log("=========================");
 }
 
+function erroFindProduct(): void {
+  console.log("Produto não encontrado");
+}
+
 function showProducts(): void {
   getProducts().forEach((p, i) => {
     console.log(
@@ -33,4 +37,10 @@ function showFinishProgram(): void {
   console.log("===== Fim do Carrinho");
 }
 
-export { showOptionsCatalog, showProducts, showFinishProgram, showCartProducts };
+export {
+  showOptionsCatalog,
+  showProducts,
+  showFinishProgram,
+  showCartProducts,
+  erroFindProduct,
+};

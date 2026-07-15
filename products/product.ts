@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import type { Product } from "../utils/types.js";
 import { saveProductsInStorage } from "../storage/storage.js";
+import { erroFindProduct } from "../ui.js";
 
 let products: Product[] = [];
 
@@ -40,7 +41,13 @@ async function editProduct(
   stock: number,
   indexP: number,
 ): Promise<void> {
-  let editP: any = getProducts().find((p, i) => i === indexP - 1);
+  let editP = getProducts().find((p, i) => i === indexP - 1);
+
+  if (!editP) {
+    erroFindProduct()
+    return;
+  }
+
   editP.name = name;
   editP.price = price;
   editP.price = price;
@@ -49,10 +56,16 @@ async function editProduct(
   await saveProductsInStorage(products);
 }
 
-async function removeProduct(indexP:number): Promise<void> {
-  let removeP: any = getProducts().find((p, i) => i !== indexP - 1);
-  setProducts(getProducts().filter(p => p.id !== removeP.id))
-  await saveProductsInStorage(products)
+async function removeProduct(indexP: number): Promise<void> {
+  setProducts(getProducts().filter((p,i) => i !== indexP-1));
+  await saveProductsInStorage(products);
 }
 
-export { getProducts, setProducts, createProduct, saveProduct, editProduct,removeProduct };
+export {
+  getProducts,
+  setProducts,
+  createProduct,
+  saveProduct,
+  editProduct,
+  removeProduct,
+};
