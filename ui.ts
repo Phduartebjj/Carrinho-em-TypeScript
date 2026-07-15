@@ -14,23 +14,23 @@ function showOptionsCatalog(): void {
 }
 
 function showProducts(): void {
-  getProducts().forEach((p,i) => {
+  getProducts().forEach((p, i) => {
     console.log(
-      `${i+1}. Nome: ${p.name}\n Preço: ${p.price}\n Estoque: ${p.stock}\n Categoria:${p.category}`,
+      `${i + 1}. Nome: ${p.name}\n Preço: ${p.price}\n Estoque: ${p.stock}\n Categoria:${p.category}`,
     );
   });
 }
 
-function showCartProducts():void{
-  getCartProducts().forEach((p,i) => {
+function showCartProducts(): void {
+  getCartProducts().forEach((p, i) => {
     console.log(
-      `${i+1}. Nome: ${p.name}\n Preço: ${p.price}\n Quantidade: ${p.quantity}\n Categoria:${p.category}`,
+      `${i + 1}. Nome: ${p.name}\n Preço: ${p.price}\n Quantidade: ${p.quantity}\n Categoria:${p.category}`,
     );
   });
 }
 
-function showFinishProgram():void{
-  console.log("===== Fim do Carrinho")
+function showFinishProgram(): void {
+  console.log("===== Fim do Carrinho");
 }
 
-export { showOptionsCatalog, showProducts,showFinishProgram };
+export { showOptionsCatalog, showProducts, showFinishProgram, showCartProducts };

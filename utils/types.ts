@@ -14,4 +14,6 @@ interface CartProduct {
   quantity: number;
 }
 
-export type { Product, CartProduct };
+type localStorage = Product[] | CartProduct[]
+
+export type { Product, CartProduct,localStorage };

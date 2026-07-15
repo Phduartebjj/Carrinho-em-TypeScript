@@ -1,5 +1,6 @@
 import type { Product, CartProduct } from "../utils/types.js";
 import { saveCartInStorage } from "../storage/storage.js";
+import { getProducts } from "../products/product.js";
 
 let cartProducts: CartProduct[] = [];
 
@@ -11,18 +12,22 @@ function setCartProducts(a: CartProduct[]): void {
   cartProducts = a;
 }
 
-function saveCartProducts(p:CartProduct):void{
-    cartProducts.push(p)
+function saveCartProducts(p: CartProduct): void {
+  cartProducts.push(p);
 }
 
-async function addCartProduct(p: Product): Promise<void> {
-  let productFind:any = cartProducts.find(cP => cP.id === p.id)
-  if(productFind){
-    productFind.quantity++
-  }else{
-    saveCartProducts(createProductToCart(p))
+async function addCartProduct(indexP: number): Promise<void> {
+  let productFind: any = getProducts().find((p, i) => i === indexP - 1);
+
+  let cartProductFind: any = cartProducts.find(
+    (cP) => cP.id === productFind.id,
+  );
+  if (cartProductFind) {
+    cartProductFind.quantity++;
+  } else {
+    saveCartProducts(createProductToCart(productFind));
   }
-  await saveCartInStorage(cartProducts)
+  await saveCartInStorage(cartProducts);
 }
 
 function createProductToCart(p: Product): CartProduct {
@@ -34,7 +39,7 @@ function createProductToCart(p: Product): CartProduct {
     quantity: 1,
   };
 
-  return product
+  return product;
 }
 
-export {getCartProducts, addCartProduct}
+export { getCartProducts, addCartProduct, setCartProducts };

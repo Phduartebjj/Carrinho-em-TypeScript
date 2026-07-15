@@ -1,5 +1,10 @@
 import promptSync from "prompt-sync";
-import { showOptionsCatalog, showProducts, showFinishProgram } from "../ui.js";
+import {
+  showOptionsCatalog,
+  showProducts,
+  showFinishProgram,
+  showCartProducts,
+} from "../ui.js";
 import {
   validationInputNumber,
   validationInputString,
@@ -10,6 +15,7 @@ import {
   editProduct,
   removeProduct,
 } from "../products/product.js";
+import { addCartProduct } from "../cart/cart.js";
 
 const prompt = promptSync();
 
@@ -31,11 +37,11 @@ async function startCatalog(): Promise<void> {
         input = Number(
           prompt("Digite o número do produto que você deseja comprar: "),
         );
-        if (!validationInputNumber(Number(input))) {
+        if (!validationInputNumber(input)) {
           console.log("Número inválido, digite outro nome");
           return;
         }
-        
+        await addCartProduct(input);
         break;
       }
       case 2: {
@@ -47,7 +53,7 @@ async function startCatalog(): Promise<void> {
         input = Number(
           prompt("Digite o número do produto que você deseja editar: "),
         );
-        if (!validationInputNumber(Number(input))) {
+        if (!validationInputNumber(input)) {
           console.log("Número inválido, digite outro nome");
           return;
         }
@@ -60,7 +66,7 @@ async function startCatalog(): Promise<void> {
         input = Number(
           prompt("Digite o número do produto que você deseja remover: "),
         );
-        if (!validationInputNumber(Number(input))) {
+        if (!validationInputNumber(input)) {
           console.log("Número inválido, digite outro nome");
           return;
         }
@@ -68,6 +74,9 @@ async function startCatalog(): Promise<void> {
         break;
       }
 
+      case 5: {
+        showCartProducts();
+      }
       case 9: {
         showFinishProgram();
         break;
@@ -92,7 +101,7 @@ async function registerProduct(): Promise<void> {
   input = Number(
     prompt("Qual é o preço do produto que você deseja adicionar? "),
   );
-  if (!validationInputNumber(Number(input))) {
+  if (!validationInputNumber(input)) {
     console.log("Preço inválido");
     return;
   }
@@ -101,7 +110,7 @@ async function registerProduct(): Promise<void> {
   input = Number(
     prompt("Qual é a quantidade do produto que você deseja adicionar? "),
   );
-  if (!validationInputNumber(Number(input))) {
+  if (!validationInputNumber(input)) {
     console.log("Quantidade inválida");
     return;
   }
