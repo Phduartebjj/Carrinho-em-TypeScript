@@ -46,7 +46,13 @@ async function editProduct(
   editP.price = price;
   editP.category = category;
   editP.stock = stock;
+  await saveProductsInStorage(products);
+}
+
+async function removeProduct(indexP:number): Promise<void> {
+  let removeP: any = getProducts().find((p, i) => i !== indexP - 1);
+  setProducts(getProducts().filter(p => p.id !== removeP.id))
   await saveProductsInStorage(products)
 }
 
-export { getProducts, setProducts, createProduct, saveProduct, editProduct };
+export { getProducts, setProducts, createProduct, saveProduct, editProduct,removeProduct };

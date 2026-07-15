@@ -1,5 +1,5 @@
 import promptSync from "prompt-sync";
-import { showOptionsCatalog, showProducts } from "../ui.js";
+import { showOptionsCatalog, showProducts,showFinishProgram } from "../ui.js";
 import {
   validationInputNumber,
   validationInputString,
@@ -8,6 +8,7 @@ import {
   createProduct,
   saveProduct,
   editProduct,
+  removeProduct,
 } from "../products/product.js";
 
 const prompt = promptSync();
@@ -18,7 +19,7 @@ let name: string;
 let price: number;
 let stock: number;
 let category: string;
-let EditP: number;
+
 
 async function startCatalog(): Promise<void> {
   while (running) {
@@ -40,15 +41,31 @@ async function startCatalog(): Promise<void> {
           prompt("Digite o número do produto que você deseja editar: "),
         );
         if (!validationInputNumber(Number(input))) {
-          console.log("Nome inválido, digite outro nome");
+          console.log("Número inválido, digite outro nome");
           return;
         }
-        EditP = input;
-        await editCatalogProduct(EditP);
-
+        await editCatalogProduct(input);
+        
         break;
       }
+      case 4:{
+        showProducts()
+        input = Number(
+          prompt("Digite o número do produto que você deseja remover: "),
+        );
+        if (!validationInputNumber(Number(input))) {
+          console.log("Número inválido, digite outro nome");
+          return;
+        }  
+        await removeProduct(input)
+        break
+      }
 
+      case 9:{
+        showFinishProgram()
+        break
+      }
+      
       default: {
         running = false;
         break;
