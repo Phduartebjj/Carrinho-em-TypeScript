@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "fs/promises";
 import { setProducts } from "../products/product.js";
 import type { Product } from "../products/types.ts";
-const productsFilePath = "./src/data/products.json";
+const productsFilePath = "./data/products.json";
 
 async function readJson(
   file: string,

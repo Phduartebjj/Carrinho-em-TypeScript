@@ -8,8 +8,8 @@ function getProducts(): Product[] {
   return products;
 }
 
-function setProducts(newProducts:Product[]):void{
-    products = newProducts
+function setProducts(newProducts: Product[]): void {
+  products = newProducts;
 }
 
 function createProduct(
@@ -28,9 +28,25 @@ function createProduct(
   return product;
 }
 
-async function saveProduct(p: Product):Promise<void>{
-    products.push(p)
-    await saveProductsInStorage(products)
+async function saveProduct(p: Product): Promise<void> {
+  products.push(p);
+  await saveProductsInStorage(products);
 }
 
-export {getProducts,setProducts, createProduct,saveProduct}
+async function editProduct(
+  name: string,
+  price: number,
+  category: string,
+  stock: number,
+  indexP: number,
+): Promise<void> {
+  let editP: any = getProducts().find((p, i) => i === indexP - 1);
+  editP.name = name;
+  editP.price = price;
+  editP.price = price;
+  editP.category = category;
+  editP.stock = stock;
+  await saveProductsInStorage(products)
+}
+
+export { getProducts, setProducts, createProduct, saveProduct, editProduct };
