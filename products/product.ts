@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import type { Product } from "./types.ts";
+import type { Product } from "../utils/types.js";
 import { saveProductsInStorage } from "../storage/storage.js";
 
 let products: Product[] = [];

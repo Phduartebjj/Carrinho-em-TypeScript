@@ -1,7 +1,8 @@
 import { readFile, writeFile } from "fs/promises";
 import { setProducts } from "../products/product.js";
-import type { Product } from "../products/types.ts";
+import type { Product } from "../utils/types.js";
 const productsFilePath = "./data/products.json";
+const cartFilePath = ".data/cart.json"
 
 async function readJson(
   file: string,
@@ -14,6 +15,7 @@ async function readJson(
     return fallback;
   }
 }
+
 
 
 async function loadStorage(): Promise<void> {
