@@ -1,6 +1,9 @@
 import type { Product, CartProduct } from "../utils/types.js";
-import { saveCartInStorage } from "../storage/storage.js";
-import { getProducts } from "../products/product.js";
+import {
+  saveCartInStorage,
+  saveProductsInStorage,
+} from "../storage/storage.js";
+import { addStock, getProducts, removeStock } from "../products/product.js";
 import { erroFindProduct } from "../ui.js";
 
 let cartProducts: CartProduct[] = [];
@@ -9,8 +12,8 @@ function getCartProducts(): CartProduct[] {
   return cartProducts;
 }
 
-function setCartProducts(a: CartProduct[]): void {
-  cartProducts = a;
+function setCartProducts(products: CartProduct[]): void {
+  cartProducts = products;
 }
 
 function saveCartProducts(p: CartProduct): void {
@@ -18,24 +21,27 @@ function saveCartProducts(p: CartProduct): void {
 }
 
 async function addCartProduct(indexP: number): Promise<void> {
-  let productFind = getProducts().find((p, i) => i === indexP - 1);
+  const productFind = getProducts()[indexP - 1];
 
   if (!productFind) {
     erroFindProduct();
     return;
   }
 
-  let cartProductFind = cartProducts.find((cP) => cP.id === productFind.id);
+  const cartProductFind = cartProducts.find((cP) => cP.id === productFind.id);
   if (cartProductFind) {
     cartProductFind.quantity++;
+    removeStock(productFind);
   } else {
     saveCartProducts(createProductToCart(productFind));
+    removeStock(productFind);
   }
+  await saveProductsInStorage(getProducts());
   await saveCartInStorage(cartProducts);
 }
 
 function createProductToCart(p: Product): CartProduct {
-  let product: CartProduct = {
+  const product: CartProduct = {
     id: p.id,
     name: p.name,
     price: p.price,
@@ -47,16 +53,38 @@ function createProductToCart(p: Product): CartProduct {
 }
 
 async function removeCartProduct(indexP: number): Promise<void> {
-  let productRemove: CartProduct = getCartProducts().find(
-    (p, i) => i === indexP - 1,
-  )!;
-  if (productRemove.quantity > 1) {
-    productRemove.quantity--;
-  } else {
-    setCartProducts(getCartProducts().filter((p, i) => i !== indexP - 1));
+  let productRemove = getCartProducts()[indexP - 1];
+
+  if (!productRemove) {
+    erroFindProduct();
+    return;
   }
 
+  if (productRemove.quantity > 1) {
+    productRemove.quantity--;
+    addStock(productRemove);
+  } else {
+    setCartProducts(getCartProducts().filter((p, i) => i !== indexP - 1));
+    addStock(productRemove);
+  }
+
+  await saveProductsInStorage(getProducts());
   await saveCartInStorage(cartProducts);
 }
 
-export { getCartProducts, addCartProduct, setCartProducts, removeCartProduct };
+async function cleanCart(): Promise<void> {
+  getCartProducts().forEach(cP => {
+    addStock(cP, cP.quantity)
+  })
+  setCartProducts([]);
+  await saveProductsInStorage(getProducts());
+  await saveCartInStorage(cartProducts);
+}
+
+export {
+  getCartProducts,
+  addCartProduct,
+  setCartProducts,
+  removeCartProduct,
+  cleanCart,
+};

@@ -18,6 +18,7 @@ import {
 } from "../products/product.js";
 import {
   addCartProduct,
+  cleanCart,
   getCartProducts,
   removeCartProduct,
 } from "../cart/cart.js";
@@ -95,6 +96,16 @@ async function startCatalog(): Promise<void> {
             "Digite o número do produto que você deseja remover: ",
           );
           removeCartProduct(input);
+        } else {
+          alertCartProducts();
+        }
+        break;
+      }
+
+      case 8:{
+        showCartProducts()
+        if (getCartProducts().length > 0) {
+          cleanCart()
         } else {
           alertCartProducts();
         }

@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { Product } from "../utils/types.js";
+import type { Product, CartProduct } from "../utils/types.js";
 import { saveProductsInStorage } from "../storage/storage.js";
 import { erroFindProduct } from "../ui.js";
 
@@ -50,7 +50,6 @@ async function editProduct(
 
   editP.name = name;
   editP.price = price;
-  editP.price = price;
   editP.category = category;
   editP.stock = stock;
   await saveProductsInStorage(products);
@@ -61,13 +60,24 @@ async function removeProduct(indexP: number): Promise<void> {
   await saveProductsInStorage(products);
 }
 
-function searchProduct(searchName: string):Product[] {
+function searchProduct(searchName: string): Product[] {
   const searchProduct = getProducts().filter((p) =>
     p.name.toLowerCase().includes(searchName.toLowerCase()),
   );
-  
-  return searchProduct
 
+  return searchProduct;
+}
+
+function addStock(cP: CartProduct, quantity:number = 1): void {
+  let productStock = getProducts().find((p) => p.id === cP.id);
+  if (!productStock) {
+    erroFindProduct();
+    return;
+  }
+  productStock.stock = productStock.stock + quantity;
+}
+function removeStock(p: Product, quantity:number = 1): void {
+  p.stock = p.stock - quantity;
 }
 
 export {
@@ -78,4 +88,6 @@ export {
   editProduct,
   removeProduct,
   searchProduct,
+  addStock,
+  removeStock,
 };
