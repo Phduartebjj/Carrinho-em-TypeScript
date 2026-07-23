@@ -4,16 +4,16 @@ import {
   showProducts,
   showFinishProgram,
   showCartProducts,
+  showSearchProducts,
 } from "../ui.js";
-import {
-  askNumber,
-  askString,
-} from "../validation/validation.js";
+import { askNumber, askString } from "../validation/validation.js";
 import {
   createProduct,
   saveProduct,
   editProduct,
   removeProduct,
+  getProducts,
+  searchProduct,
 } from "../products/product.js";
 import { addCartProduct } from "../cart/cart.js";
 
@@ -29,15 +29,17 @@ let category: string;
 async function startCatalog(): Promise<void> {
   while (running) {
     showOptionsCatalog();
-    let choice: number = Number(prompt("Qual número você deseja?"));
+    let choice: number = askNumber("Qual número você deseja? ");
 
     switch (choice) {
       case 1: {
         showProducts();
-        input = askNumber(
-          "Digite o número do produto que você deseja comprar: ",
-        );
-        await addCartProduct(input);
+        if (getProducts().length > 0) {
+          input = askNumber(
+            "Digite o número do produto que você deseja comprar: ",
+          );
+          await addCartProduct(input);
+        }
         break;
       }
       case 2: {
@@ -46,23 +48,32 @@ async function startCatalog(): Promise<void> {
       }
       case 3: {
         showProducts();
-        input = askNumber(
-          "Digite o número do produto que você deseja editar: ",
-        );
-        await editCatalogProduct(input);
+        if (getProducts().length > 0) {
+          input = askNumber(
+            "Digite o número do produto que você deseja editar: ",
+          );
+          await editCatalogProduct(input);
+        }
 
         break;
       }
       case 4: {
         showProducts();
-        input = askNumber(
-          "Digite o número do produto que você deseja remover: ",
-        );
-        await removeProduct(input);
+        if (getProducts().length > 0) {
+          input = askNumber(
+            "Digite o número do produto que você deseja remover: ",
+          );
+          await removeProduct(input);
+        }
+        break;
+      }
+      case 5: {
+        input = askString("Digite o nome do produto que deseja procurar ");
+        showSearchProducts(searchProduct(input))
         break;
       }
 
-      case 5: {
+      case 6: {
         showCartProducts();
         break;
       }
@@ -73,7 +84,7 @@ async function startCatalog(): Promise<void> {
       }
 
       default: {
-        running = false;
+        console.log("Opção inválida");
         break;
       }
     }
