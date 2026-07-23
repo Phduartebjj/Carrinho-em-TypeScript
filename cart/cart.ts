@@ -21,14 +21,15 @@ function saveCartProducts(p: CartProduct): void {
 }
 
 async function addCartProduct(indexP: number): Promise<void> {
-  const productFind = getProducts()[indexP - 1];
+  const productFind = findProductByIndex(indexP);
 
   if (!productFind) {
     erroFindProduct();
     return;
   }
 
-  const cartProductFind = cartProducts.find((cP) => cP.id === productFind.id);
+  const cartProductFind = findCartProductById(productFind.id);
+
   if (cartProductFind) {
     cartProductFind.quantity++;
     removeStock(productFind);
@@ -73,12 +74,20 @@ async function removeCartProduct(indexP: number): Promise<void> {
 }
 
 async function cleanCart(): Promise<void> {
-  getCartProducts().forEach(cP => {
-    addStock(cP, cP.quantity)
-  })
+  getCartProducts().forEach((cP) => {
+    addStock(cP, cP.quantity);
+  });
   setCartProducts([]);
   await saveProductsInStorage(getProducts());
   await saveCartInStorage(cartProducts);
+}
+
+function findCartProductById(id: string): CartProduct | undefined {
+  return cartProducts.find((product) => product.id === id);
+}
+
+function findProductByIndex(index: number): Product | undefined {
+  return getProducts()[index - 1];
 }
 
 export {
