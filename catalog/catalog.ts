@@ -6,6 +6,8 @@ import {
   showCartProducts,
   showSearchProducts,
   alertCartProducts,
+  showTotalCart,
+  showReceipt,
 } from "../ui.js";
 import { askNumber, askString } from "../validation/validation.js";
 import {
@@ -19,9 +21,12 @@ import {
 import {
   addCartProduct,
   cleanCart,
+  finishShopping,
   getCartProducts,
   removeCartProduct,
+  totalValueCart,
 } from "../cart/cart.js";
+import { loadReceipt } from "../storage/storage.js";
 
 const prompt = promptSync();
 
@@ -83,7 +88,12 @@ async function startCatalog(): Promise<void> {
 
       case 6: {
         showCartProducts();
-        if (getCartProducts().length < 1) {
+        totalValueCart();
+        if (getCartProducts().length > 0) {
+          input = askString("Você deseja terminar a compra? Y/N");
+          await finishShopping(input);
+          await showReceipt();
+        } else {
           alertCartProducts();
         }
         break;
@@ -102,13 +112,15 @@ async function startCatalog(): Promise<void> {
         break;
       }
 
-      case 8:{
-        showCartProducts()
+      case 8: {
+        showCartProducts();
         if (getCartProducts().length > 0) {
-          cleanCart()
+          showTotalCart();
+          await cleanCart();
         } else {
           alertCartProducts();
         }
+
         break;
       }
 

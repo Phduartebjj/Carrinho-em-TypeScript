@@ -6,6 +6,13 @@ interface Product {
   stock: number;
 }
 
+interface Receipt {
+  id: string;
+  date?: string;
+  total: number;
+  products: CartProduct[];
+}
+
 interface CartProduct {
   id: string;
   name: string;
@@ -14,6 +21,6 @@ interface CartProduct {
   quantity: number;
 }
 
-type localStorage = Product[] | CartProduct[]
+type localStorage = Product[] | CartProduct[];
 
-export type { Product, CartProduct,localStorage };
+export type { Product, CartProduct, localStorage, Receipt };

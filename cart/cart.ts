@@ -2,9 +2,10 @@ import type { Product, CartProduct } from "../utils/types.js";
 import {
   saveCartInStorage,
   saveProductsInStorage,
+  saveReceipt,
 } from "../storage/storage.js";
 import { addStock, getProducts, removeStock } from "../products/product.js";
-import { erroFindProduct } from "../ui.js";
+import { erroFindProduct, showCartProducts } from "../ui.js";
 
 let cartProducts: CartProduct[] = [];
 
@@ -73,6 +74,14 @@ async function removeCartProduct(indexP: number): Promise<void> {
   await saveCartInStorage(cartProducts);
 }
 
+function totalValueCart(): number {
+  if (getCartProducts().length === 0) {
+    return 0;
+  }
+
+  return getCartProducts().reduce((acc, cP) => acc + cP.price * cP.quantity, 0);
+}
+
 async function cleanCart(): Promise<void> {
   getCartProducts().forEach((cP) => {
     addStock(cP, cP.quantity);
@@ -90,10 +99,22 @@ function findProductByIndex(index: number): Product | undefined {
   return getProducts()[index - 1];
 }
 
+async function finishShopping(input: string): Promise<void> {
+  if (!input.toLowerCase().includes("y")) {
+    return;
+  }
+  await saveReceipt()
+  showCartProducts();
+  totalValueCart();
+ await cleanCart();
+}
+
 export {
   getCartProducts,
   addCartProduct,
   setCartProducts,
   removeCartProduct,
   cleanCart,
+  totalValueCart,
+  finishShopping,
 };

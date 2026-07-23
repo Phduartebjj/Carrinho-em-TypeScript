@@ -1,0 +1,23 @@
+[
+  {
+    "id": "19ce9d86-2ab7-42cc-8423-2dea912b46cf",
+    "date": "23/07/2026, 18:00:04",
+    "total": 219,
+    "products": [
+      {
+        "id": "aaf95faa-f3c4-40eb-adc6-370768a168a3",
+        "name": "Pedro",
+        "price": 199,
+        "category": "Fodo",
+        "quantity": 1
+      },
+      {
+        "id": "82b2ed2d-f358-4aef-ac80-6bea6aa4a4ec",
+        "name": "G",
+        "price": 20,
+        "category": "mn",
+        "quantity": 1
+      }
+    ]
+  }
+]

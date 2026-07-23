@@ -1,5 +1,7 @@
-import { getCartProducts } from "./cart/cart.js";
+import { getCartProducts, totalValueCart } from "./cart/cart.js";
 import { getProducts } from "./products/product.js";
+import { getReceipts } from "./storage/receipt.js";
+import { loadReceipt } from "./storage/storage.js";
 import type { Product } from "./utils/types.js";
 
 function showOptionsCatalog(): void {
@@ -29,6 +31,10 @@ function showProducts(): void {
   });
 }
 
+function showTotalCart(): void {
+  console.log(`\n Valor total: R$${totalValueCart()}`);
+}
+
 function alertCartProducts(): void {
   console.log("Carrinho está vazio");
 }
@@ -38,6 +44,21 @@ function showCartProducts(): void {
     console.log(
       `${i + 1}. Nome: ${p.name}\n Preço: ${p.price}\n Quantidade: ${p.quantity}\n Categoria:${p.category}`,
     );
+  });
+}
+
+async function showReceipt(): Promise<void> {
+  getReceipts().forEach((receipt, i) => {
+    console.log(`===== Recibo ${i + 1} =====`);
+    console.log(`ID: ${receipt.id}`);
+    console.log(`Total: R$${receipt.total}`);
+
+    receipt.products.forEach((p) => {
+      console.log(`${p.name} \n Quantidade: ${
+        p.quantity
+      } \n Preço: R$${p.price} 
+      `);
+    });
   });
 }
 
@@ -61,4 +82,6 @@ export {
   erroFindProduct,
   showSearchProducts,
   alertCartProducts,
+  showTotalCart,
+  showReceipt,
 };
