@@ -29,6 +29,10 @@ function showProducts(): void {
   });
 }
 
+function alertCartProducts(): void {
+  console.log("Carrinho está vazio");
+}
+
 function showCartProducts(): void {
   getCartProducts().forEach((p, i) => {
     console.log(
@@ -56,4 +60,5 @@ export {
   showCartProducts,
   erroFindProduct,
   showSearchProducts,
+  alertCartProducts,
 };

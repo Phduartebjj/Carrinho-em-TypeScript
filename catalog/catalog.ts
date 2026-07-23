@@ -5,6 +5,7 @@ import {
   showFinishProgram,
   showCartProducts,
   showSearchProducts,
+  alertCartProducts,
 } from "../ui.js";
 import { askNumber, askString } from "../validation/validation.js";
 import {
@@ -15,7 +16,11 @@ import {
   getProducts,
   searchProduct,
 } from "../products/product.js";
-import { addCartProduct } from "../cart/cart.js";
+import {
+  addCartProduct,
+  getCartProducts,
+  removeCartProduct,
+} from "../cart/cart.js";
 
 const prompt = promptSync();
 
@@ -69,14 +74,33 @@ async function startCatalog(): Promise<void> {
       }
       case 5: {
         input = askString("Digite o nome do produto que deseja procurar ");
-        showSearchProducts(searchProduct(input))
+        showSearchProducts(searchProduct(input));
         break;
       }
 
+      //CARRINHO
+
       case 6: {
         showCartProducts();
+        if (getCartProducts().length < 1) {
+          alertCartProducts();
+        }
         break;
       }
+
+      case 7: {
+        showCartProducts();
+        if (getCartProducts().length > 0) {
+          input = askNumber(
+            "Digite o número do produto que você deseja remover: ",
+          );
+          removeCartProduct(input);
+        } else {
+          alertCartProducts();
+        }
+        break;
+      }
+
       case 9: {
         showFinishProgram();
         running = false;

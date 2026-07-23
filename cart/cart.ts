@@ -2,6 +2,7 @@ import type { Product, CartProduct } from "../utils/types.js";
 import { saveCartInStorage } from "../storage/storage.js";
 import { getProducts } from "../products/product.js";
 import { erroFindProduct } from "../ui.js";
+import { get } from "node:http";
 
 let cartProducts: CartProduct[] = [];
 
@@ -20,14 +21,12 @@ function saveCartProducts(p: CartProduct): void {
 async function addCartProduct(indexP: number): Promise<void> {
   let productFind = getProducts().find((p, i) => i === indexP - 1);
 
-  if(!productFind){
-    erroFindProduct()
-    return
+  if (!productFind) {
+    erroFindProduct();
+    return;
   }
-  
-  let cartProductFind = cartProducts.find(
-    (cP) => cP.id === productFind.id,
-  );
+
+  let cartProductFind = cartProducts.find((cP) => cP.id === productFind.id);
   if (cartProductFind) {
     cartProductFind.quantity++;
   } else {
@@ -48,4 +47,17 @@ function createProductToCart(p: Product): CartProduct {
   return product;
 }
 
-export { getCartProducts, addCartProduct, setCartProducts };
+async function removeCartProduct(indexP: number): Promise<void> {
+  let productRemove: CartProduct = getCartProducts().find(
+    (p, i) => i === indexP - 1,
+  )!;
+  if (productRemove.quantity > 1) {
+    productRemove.quantity--;
+  } else {
+    setCartProducts(getCartProducts().filter((p, i) => i !== indexP - 1));
+  }
+
+  await saveCartInStorage(cartProducts);
+}
+
+export { getCartProducts, addCartProduct, setCartProducts, removeCartProduct };
