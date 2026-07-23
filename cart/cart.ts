@@ -2,7 +2,6 @@ import type { Product, CartProduct } from "../utils/types.js";
 import { saveCartInStorage } from "../storage/storage.js";
 import { getProducts } from "../products/product.js";
 import { erroFindProduct } from "../ui.js";
-import { get } from "node:http";
 
 let cartProducts: CartProduct[] = [];
 
